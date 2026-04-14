@@ -24,9 +24,22 @@ add_action("after_setup_theme", "flordloto_setup");
 
 function flordloto_enqueue_assets(): void
 {
-    wp_enqueue_style("flordloto-style", get_stylesheet_uri(), [], "1.0.0");
+    wp_enqueue_style("flordloto-style", get_stylesheet_uri(), [], "1.1.1");
 }
 add_action("wp_enqueue_scripts", "flordloto_enqueue_assets");
+
+function flordloto_favicon_tags(): void
+{
+    if (has_site_icon()) {
+        return;
+    }
+
+    $assets_url = get_template_directory_uri() . "/assets";
+    echo '<link rel="icon" href="' . esc_url($assets_url . "/favicon.ico") . '" sizes="any">' . "\n";
+    echo '<link rel="icon" href="' . esc_url($assets_url . "/favicon-512.png") . '" type="image/png">' . "\n";
+    echo '<link rel="apple-touch-icon" href="' . esc_url($assets_url . "/apple-touch-icon.png") . '">' . "\n";
+}
+add_action("wp_head", "flordloto_favicon_tags");
 
 function flordloto_register_theme_settings(): void
 {
